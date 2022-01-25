@@ -9,7 +9,7 @@ class AdsController {
     this.router.get('/list', (req, res) => {
       const page = parseInt(req.query.page);
       const sortBy = req.query.sort;
-      const sortOrder = req.query.order;
+      const sortOrder = req.query.order || 'asc';
       return this.service.getAds(page, sortBy, sortOrder);
     })
     this.router.get('/:id', (req, res) => {

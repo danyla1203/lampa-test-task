@@ -50,14 +50,12 @@ class AdsService {
     if (!page || page < 0) throw new IncorrectData('Incorrect page');
     const from = page;
     const to = page + 9;
-    if (!sortBy && !sortOrder) {
+    if (!sortBy) {
       return this.repository.findAds(from, to);
-    } else if (sortBy && !sortOrder) {
+    } else if (sortBy) {
       if (sortBy != 'date' && sortBy != 'price') {
         throw new IncorrectData('Sort is possible only by price or date');
       }
-      return this.repository.findSortedAds(from, to, sortBy, 'asc');
-    } else if (sortBy && sortOrder) {
       if (sortOrder != 'asc' && sortOrder != 'desc') {
         throw new IncorrectData('Sort order possible value: asc, desc');
       }
