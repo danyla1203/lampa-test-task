@@ -6,8 +6,11 @@ class AdsController {
     this.router = new CustomRouter();
   }
   run() {
-    this.router.get('', (req, res) => {
-      return {};
+    this.router.get('/list', (req, res) => {
+      const page = req.query.page;
+      const sortBy = req.query.sort;
+      const sortOrder = req.query.order;
+      return this.service.getAds(page, sortBy, sortOrder);
     })
     return this.router.router;
   }

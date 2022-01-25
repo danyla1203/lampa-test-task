@@ -10,6 +10,7 @@ class Router {
         let result = await handler(req, res);
         res.json(result);
       } catch(e) {
+        console.log(e);
         res.statusCode = e.statusCode || 500;
         res.json({
           statusCode: e.statusCode || 500,
