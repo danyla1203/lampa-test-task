@@ -16,10 +16,10 @@ async function run() {
   const adsService = new AdsService(adsRepository);
   const adsController = new AdsController(adsService);
 
-  adsController.run();
+  const adsRouter = adsController.run();
 
   const app = express();
-  app.use('/ad', adsController.router.router);
+  app.use('/ad', adsRouter);
   app.listen(PORT, () => {
     console.log(`Server started on ${PORT} port`);
   })

@@ -1,6 +1,6 @@
 const pg = require('pg');
 
-async function createConn
+function createConn
 (
   DB_USER, 
   DB_PASSWORD, 
