@@ -1,9 +1,10 @@
 const dotenv = require('dotenv');
+const express = require('express');
+const bodyParser = require('body-parser')
 const { createConn } = require('./lib/dbConn');
 const { AdsController } = require('./ads/ads.controller');
 const { AdsRepository } = require('./ads/ads.repository');
 const { AdsService } = require('./ads/ads.service');
-const express = require('express');
 
 dotenv.config();
 
@@ -19,7 +20,10 @@ async function run() {
   const adsRouter = adsController.run();
 
   const app = express();
+
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.use('/ad', adsRouter);
+
   app.listen(PORT, () => {
     console.log(`Server started on ${PORT} port`);
   })

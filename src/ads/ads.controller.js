@@ -13,9 +13,12 @@ class AdsController {
       return this.service.getAds(page, sortBy, sortOrder);
     })
     this.router.get('/:id', (req, res) => {
-      let additionalFields = req.query.fields;
-      let id = req.params.id;
+      const additionalFields = req.query.fields;
+      const id = req.params.id;
       return this.service.getAd(id, additionalFields);
+    })
+    this.router.post('', async (req, res) => {
+      return (await this.service.insertAdd(req.body)).rows[0];
     })
     return this.router.router;
   }
