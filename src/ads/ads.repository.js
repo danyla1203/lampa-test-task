@@ -11,5 +11,10 @@ class AdsRepository {
     let sql = `select ${columns} from ads order by ${sortBy} ${order} limit ${to} offset ${from}`;
     return (await this.db.query(sql)).rows;
   }
+  async findAd(id, fields) {
+    let columns = `title, photos_link[1] as main_photo, price, ${fields}`;
+    let sql = `select ${columns} from ads where ad_id=${id}`;
+    return (await this.db.query(sql)).rows;
+  }
 }
 module.exports.AdsRepository = AdsRepository;
