@@ -20,7 +20,10 @@ class AdsService {
     if (!this.allFieldsProvided(fields)) throw new IncorrectData('not all fields');
     let { title, description, photos_link, price } = fields;
     if (title.length > 200) throw new IncorrectData('title is too big');
+    if (title.length < 5) throw new IncorrectData('title is too short');
     if (description.length > 1000) throw new IncorrectData('description is too big');
+    if (description.length < 10) throw new IncorrectData('description is too short');
+    if (price.length < 1) throw new IncorrectData('price is incorrect');
     try {
       photos_link = JSON.parse(photos_link);
     } catch(e) {
