@@ -7,7 +7,7 @@ class CustomError extends Error {
 }
 
 class IncorrectData extends CustomError {
-  constructor(code, message) {
+  constructor(message, code = 406) {
     super(code, message);
   }
 }

@@ -14,7 +14,7 @@ class AdsController {
     })
     this.router.get('/:id', (req, res) => {
       const additionalFields = req.query.fields;
-      const id = req.params.id;
+      const id = parseInt(req.params.id);
       return this.service.getAd(id, additionalFields);
     })
     this.router.post('', async (req, res) => {

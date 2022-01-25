@@ -12,7 +12,10 @@ class AdsRepository {
     return (await this.db.query(sql)).rows;
   }
   async findAd(id, fields) {
-    const columns = `title, photos_link[1] as main_photo, price, ${fields}`;
+    let columns = `title, photos_link[1] as main_photo, price`;
+    if (fields.length > 0) {
+      columns = `${columns}, ${fields}`;
+    }
     const sql = `select ${columns} from ads where ad_id=${id}`;
     return (await this.db.query(sql)).rows;
   }
