@@ -34,7 +34,6 @@ class AdsService {
 
   getAd(id, additionalFields) {
     if (!id) throw new IncorrectData('Incorrect id');
-
     const fields = [];
     if (additionalFields) {
       additionalFields = additionalFields.split(',');
@@ -45,9 +44,9 @@ class AdsService {
   }
 
   getAds(page, sortBy, sortOrder) {
-    if (!page) throw new IncorrectData('Incorrect data');
-    const from = parseInt(page);
-    const to = parseInt(page) + 9;
+    if (!page || page < 0) throw new IncorrectData('Incorrect page');
+    const from = page;
+    const to = page + 9;
     if (!sortBy && !sortOrder) {
       return this.repository.findAds(from, to);
     } else if (sortBy && !sortOrder) {

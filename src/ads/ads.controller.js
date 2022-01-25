@@ -7,7 +7,7 @@ class AdsController {
   }
   run() {
     this.router.get('/list', (req, res) => {
-      const page = req.query.page;
+      const page = parseInt(req.query.page);
       const sortBy = req.query.sort;
       const sortOrder = req.query.order;
       return this.service.getAds(page, sortBy, sortOrder);
