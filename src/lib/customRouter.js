@@ -20,7 +20,7 @@ class Router {
     });
   }
   post(path, handler) {
-    this.router.get(path, async (req, res) => {
+    this.router.post(path, async (req, res) => {
       try {
         let result = await handler(req, res);
         res.json(result);
