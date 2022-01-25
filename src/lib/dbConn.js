@@ -1,4 +1,5 @@
 const pg = require('pg');
+const Redis = require('ioredis');
 
 function createConn
 (
@@ -13,4 +14,14 @@ function createConn
   });
 }
 
-module.exports = { createConn: createConn }
+async function createRedisConn () {
+  const client = new Redis();
+  
+  return client;
+}
+
+module.exports = {
+  createConn: createConn,
+  createRedisConn: createRedisConn
+}
+

@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const bodyParser = require('body-parser')
-const { createConn } = require('./lib/dbConn');
+const { createConn, createRedisConn } = require('./lib/dbConn');
 const { AdsController } = require('./ads/ads.controller');
 const { AdsRepository } = require('./ads/ads.repository');
 const { AdsService } = require('./ads/ads.service');
@@ -12,8 +12,9 @@ const { DB_USER, DB_PASSWORD, DB_NAME, PORT } = process.env;
 
 async function run() {
   const pool = await createConn(DB_USER, DB_PASSWORD, DB_NAME);
+  const redis = await createRedisConn();
 
-  const adsRepository = new AdsRepository(pool);
+  const adsRepository = new AdsRepository(pool, redis);
   const adsService = new AdsService(adsRepository);
   const adsController = new AdsController(adsService);
 

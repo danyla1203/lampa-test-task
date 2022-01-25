@@ -1,5 +1,6 @@
 class AdsRepository {
-  constructor(pool) {
+  constructor(pool, redis) {
+    this.redis = redis;
     this.db = pool;
   }
   async findAds(from, to) {
@@ -11,13 +12,28 @@ class AdsRepository {
     const sql = `select ${columns} from ads order by ${sortBy} ${order} limit ${to} offset ${from}`;
     return (await this.db.query(sql)).rows;
   }
-  async findAd(id, fields) {
-    let columns = `title, photos_link[1] as main_photo, price`;
-    if (fields.length > 0) {
-      columns = `${columns}, ${fields}`;
+
+  selectSomeCols(columns, data) {
+    let result = {};
+    for (let key in data) {
+      if (columns.includes(key)) result[key] = data[key];
     }
-    const sql = `select ${columns} from ads where ad_id=${id}`;
-    return (await this.db.query(sql)).rows;
+    return result;
+  }
+  async findAd(id, fields) {
+    let columns = ['ad_id', 'title', 'main_photo', 'price', ...fields];
+    let ad = await this.redis.hgetall(`ads:${id}`);
+    let photos_link = await this.redis.smembers(`photos_list:${id}`);
+    ad.photos_link = photos_link;
+    ad.main_photo = photos_link[0];
+    if (Object.keys(ad).length > 3) return this.selectSomeCols(columns, ad);
+
+    let select = `ad_id, title, description, photos_link, photos_link[1] as main_photo, price, date`;
+    const sql = `select ${select} from ads where ad_id=${id}`;
+    let result = (await this.db.query(sql)).rows[0];
+    this.redis.sadd(`photos_list:${result.ad_id}`, result['photos_link']);
+    this.redis.hmset(`ads:${result.ad_id}`, result);
+    return this.selectSomeCols(columns, result);
   }
   async saveAdd(title, description, photos_link, price) {
     const columns = `title, description, photos_link, price`;
