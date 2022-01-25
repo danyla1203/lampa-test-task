@@ -7,7 +7,8 @@ class AdsRepository {
     return (await this.db.query(sql)).rows;
   }
   async findSortedAds(from, to, sortBy, order) {
-    let sql = `select * from ads order by ${sortBy} ${order} limit ${to} offset ${from}`;
+    let columns = 'title, photos_link[1], price'
+    let sql = `select ${columns} from ads order by ${sortBy} ${order} limit ${to} offset ${from}`;
     return (await this.db.query(sql)).rows;
   }
 }
