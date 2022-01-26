@@ -1,0 +1,24 @@
+version: "3"
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DB_SCHEMA: public
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: database
+      REDIS_HOST: redis
+      
+  redis:
+    image: "redis:alpine"
+  database:
+    image: "postgres"
+    environment:
+      POSTGRES_DB: test_task
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes: 
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+    
