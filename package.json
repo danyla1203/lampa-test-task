@@ -11,9 +11,11 @@
     "pg": "8.7.1"
   },
   "devDependencies": {
+    "jest": "^27.4.7",
     "nodemon": "2.0.15"
   },
   "scripts": {
-    "start:dev": "nodemon ./src/index.js"
+    "start:dev": "nodemon ./src/index.js",
+    "test": "jest"
   }
 }
