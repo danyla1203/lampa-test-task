@@ -37,13 +37,10 @@ class AdsService {
 
   getAd(id, additionalFields) {
     if (!id) throw new IncorrectData('Incorrect id');
-    const fields = [];
     if (typeof additionalFields == 'string') {
       additionalFields = additionalFields.split(',');
-      if (additionalFields.includes('photos')) fields.push('photos_link');
-      if (additionalFields.includes('description')) fields.push('description');
     } 
-    return this.repository.findAd(id, fields);
+    return this.repository.findAd(id, additionalFields);
   }
 
   getAds(page, sortBy, sortOrder) {
