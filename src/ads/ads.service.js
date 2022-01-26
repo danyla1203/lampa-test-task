@@ -49,7 +49,7 @@ class AdsService {
     const to = page + 9;
     if (!sortBy) {
       return this.repository.findAds(from, to);
-    } else if (sortBy) {
+    } else {
       if (sortBy != 'date' && sortBy != 'price') {
         throw new IncorrectData('Sort is possible only by price or date');
       }
