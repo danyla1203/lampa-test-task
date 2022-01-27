@@ -4,13 +4,15 @@ class AdsRepository {
     this.db = pool;
   }
   async findAds(from, to) {
-    const sql = `select * from ads offset ${from} limit ${to}`;
+    const columns = 'title, photos_link[1] as main_photo, price';
+    const sql = `select ${columns} from ads offset ${from} limit ${to}`;
     return (await this.db.query(sql)).rows;
   }
   async findSortedAds(from, to, sortBy, order) {
-    const columns = 'title, photos_link[1], price';
-    const sql = `select ${columns} from ads order by ${sortBy} ${order} limit ${to} offset ${from}`;
-    return (await this.db.query(sql)).rows;
+    const columns = 'title, photos_link[1] as main_photo, price';
+    const data = `select ${columns} from ads limit ${to} offset ${from}`;
+    const sortedData = `select * from (${data}) as t1 order by ${sortBy} ${order} `;
+    return (await this.db.query(sortedData)).rows;
   }
 
   selectSomeCols(columns, data) {
