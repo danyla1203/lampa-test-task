@@ -44,9 +44,9 @@ class AdsService {
   }
 
   getAds(page, sortBy, sortOrder) {
-    if (!page || page < 0) throw new IncorrectData('Incorrect page');
-    const from = page;
-    const to = page + 9;
+    if (!page || page < 1) throw new IncorrectData('Incorrect page');
+    const from = (page - 1) * 10;
+    const to = page * 10;
     if (!sortBy) {
       return this.repository.findAds(from, to);
     } else {
